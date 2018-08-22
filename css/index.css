@@ -1,0 +1,107 @@
+@charset "utf-8";
+/*属性重置开始*/
+*{ margin:0; padding:0; font-family: Arial, "Microsoft YaHei", SimSun; font-size:14px; color:#7e7f84;}
+html, body, ul, p { padding: 0; margin: 0; }
+img,input{ border:none;}
+li{ list-style:none;}
+a{text-decoration:none; color:#333;}
+body{ width:100%; height:100%; min-width:1170px;}
+/*属性重置结束**/
+    #app{ overflow: hidden;}
+    .L{ width: 240px; height:818px; border: 1px solid #ccc; position: absolute; left: 0; top:0;background: #f1f1f1; overflow: hidden; padding: 10px 0;}
+    .L li{ width: 44%; height:30px; text-align: center; line-height: 30px;border: 1px solid #ccc; margin-bottom: 20px; background: #fff; float: left; margin-left: 2%; cursor: pointer;}
+    .L li:hover{ color: #000090;}
+
+
+    .M{ width: 600px; height: 818px; border: 1px solid #ccc; margin:0 auto; overflow-y: scroll;background: rgba(255,255,255,0.8); }
+    .M::-webkit-scrollbar {display:none}
+    .M li{ width: 92%; border-bottom: 1px solid #ccc; padding: 20px 4%; }
+    .M li:hover{ background: rgba(0,154,255,0.05);}
+    .M li h2{}
+    .M li input[type='text']{ width: 200px; height:30px; line-height: 30px;border: 1px solid #ccc; }
+    .M li label{ display: block; margin: 10px 0;}
+    .M li label input[type='radio']{}
+    .duohangwenben_k_n{ width: 270px; height:70px;}
+
+    .R{ width: 350px; height: 818px; border: 1px solid #ccc; position: absolute; right: 0; top:0;padding: 10px; background: #fff; display: none;}
+    .R li input[type='text']{ width: 200px; height:30px; line-height: 30px;border: 1px solid #ccc; }
+    .R li label{ display: block; margin: 10px 0; position: relative;}
+    .R li label input[type='radio']{}
+    .R .blackbg{ width: 100%; height: 100%; position: fixed; left: 0; right:0; top: 0; bottom: 0; background: #000000; opacity: 0.4; z-index: 9998}
+    .R .fanwei{ width: 200px; height: 240px; background: #ffffff; padding: 10px; position: absolute; left: -122px; top: -95px; z-index: 9999}
+    .R .fanwei h2{ margin-bottom: 4px;}
+    .R .fanwei h3{ width: 100%; overflow: hidden; margin-top: 10px;}
+    .R .fanwei .save{ border: 1px solid #007bff; color: #007bff; text-align: center; display: block; height: 24px; line-height: 24px; border-radius: 4px; width: 60px;
+        float: left;font-size: 12px;font-weight: normal;}
+    .R .fanwei .cancel{ border: 1px solid #333; color: #333; text-align: center; display: block; height: 24px; line-height: 24px; border-radius: 4px; width: 60px;
+        float: left; margin-left: 10px; font-size: 12px; font-weight: normal;}
+
+    .bg1{ background: red;}
+    .bg2{ background: blue;}
+    .colorred{ color: red}
+    .colorblue{ color: blue}
+    .submit{ display: block; width: 100px; height: 30px; text-align: center;line-height: 30px; background: #f01400; color: #ffffff; margin: 30px auto; cursor: pointer}
+    .zIndex{ display: block;}
+
+    .M .duan{ width: 60px !important;}
+
+    .postion{ position: relative;}
+   .del{ position: absolute; right:10px; bottom:-10px; padding: 2px 6px; background: #007bff; color: #ffffff; border-radius: 4px; font-size: 12px;}
+   .copy{position: absolute; right:60px; bottom:-10px; padding: 2px 6px;background:red; color: #ffffff;border-radius: 4px; font-size: 12px;}
+
+    .yemei_table{ width: 90%; margin: 0 auto;}
+    .yemei_table tbody{ display: none;}
+    .yemei_table td{ padding: 6px;}
+    .yemei_table td p{ float: left; border: 1px solid #ccc; background: #ffffff; padding: 4px 8px; margin-right: 4px;}
+    .yemei_table td p.on{ background: #007bff; color: #ffffff;}
+    .yemei_table td .duiqi{ float: left; border: 1px solid #ccc; background: #ffffff; padding: 4px 8px; margin-right: 4px;}
+    .yemei_table td .duiqi.ative{ background: #007bff; color: #ffffff;}
+    .yemei_table select{ width:140px; height:30px; float: left; display: block; margin-right: 4px;}
+    .yemei_table td input[type='text']{ width: 140px; height: 28px; line-height: 28px; border: 1px solid #ccc; }
+    .yemei .R{ background: #f1f1f1;}
+    .yemei h1{ width: 92%;  background: #000000; color: #ffffff; padding: 20px 4%; font-weight: normal;}
+
+    .fontweight{ font-weight: bold !important;}
+    .ftwton{ background: #007bff !important; color: #ffffff;}
+
+
+    #inputBox{ width: 200px; height:32px; background: #fff; border: 1px solid #ccc; position: relative; text-align: center; line-height: 32px;}
+    #inputBox input{ display: block; opacity: 0; position: absolute; left:0px; top:0px; width:200px; height: 32px; z-index: 11;cursor: pointer;}
+    #imgBox{}
+    #imgBox img{width: 50px; height: 50px; display: block;}
+    #imgBox .imgContainer{ width: 200px; height: 50px; border: 1px solid #ccc;background: #fff;  margin-top: 6px; position: relative;}
+    #imgBox .imgContainer .delimg{ position: absolute; left:67px;bottom:5px; width: 36px; color: #007bff; cursor: pointer;}
+    #imgBox .imgContainer .imgtitle{ position: absolute; left:67px;top:5px;}
+
+
+    .ckeditorer{}
+    .ckeditorer h3 input{ width: 90% !important; margin: 20px auto; border: 1px solid #ccc; height: 30px !important; line-height: 30px !important; padding-left:10px; display: block;}
+    #cke_TextArea1{ width: 94%; margin: 0 auto;}
+    /*单图片上传*/
+    .upload_pic{opacity: 1;}
+    .danimgsmall{ width: 220px; height: 60px; background: #fff; border: 1px solid #ccc; position: relative;}
+    .danimgsmall #preview{ width: 60px; height: 60px; position: absolute; left:0;top:0;}
+    .danimgsmall input{ display: block; opacity: 0; position: absolute; right:5px; top:15px; width:80px; height: 30px; z-index: 11;cursor: pointer;}
+    .danimgsmall .upload{display: block; opacity: 0; position: absolute; right:5px; top:15px; width:80px; height: 30px; z-index: 11;cursor: pointer;}
+    .danimgsmall span{ display: block;position: absolute; right:5px; top:15px; width:60px; height: 30px; text-align: center; line-height: 30px;cursor: pointer; border: 1px solid #ccc; font-size: 13px;}
+    #danimgshow{ overflow: hidden;}
+    #danimgshow img{ max-width: 100%; margin:0 auto; display: block;}
+    .danimgsmall .title{ position: absolute; left:67px;top:20px; width:100px; height: 20px;}
+    /*.danimgsmall .removeimg{ position: absolute; left:67px;bottom:5px; width:100px; height: 20px; color: #007bff; cursor: pointer;}*/
+    /*多图上传*/
+    #duoimgshow{}
+    .mint-swipe {  height: 260px;  color: #fff;  font-size: 30px;  text-align: center;  margin-bottom: 20px;  }
+    .mint-swipe img{ height: 260px; display: block; margin: 0 auto;}
+
+/*单选和多选的CSS*/
+.R input[type="button"]{width: 60px;height: 30px;border: 1px solid #ccc;background: #fff;color: #000;}
+.zIndex{ display: block;}
+.zdy input[type="text"]{height: 30px;width: 200px;border: 1px solid #ccc;line-height: 30px;display: block;}
+.mode3{float: left;}
+.mode1{overflow: hidden;}
+.fx1 input:first-child{background: #009AFF;color: #fff;}
+.fx2 input:nth-child(2){background: #009AFF;color: #fff;}
+.add{float: left;width: 20px;height: 20px;border: 1px solid #999;text-align: center;line-height: 20px;margin-top: 10px;margin-left: 10px;border-radius: 10px;}
+.dele{float: left;width: 20px;height: 20px;border: 1px solid #999;text-align: center;line-height: 20px;margin-top: 10px;margin-left: 10px;border-radius: 10px;}
+.dele3{display: none;}
+.mode4{float: left;}

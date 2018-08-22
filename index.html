@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <!--以下为强制兼容IE9以下的代码-->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <![endif]-->
+    <title>页眉</title>
+
+    <!--js引用开始-->
+    <script src="js/jquery-1.12.0.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+    <!--颜色选择器-->
+    <script src="js/jquery.minicolors.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/jquery.minicolors.css">
+
+    <!--mintui-->
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/mint-ui/lib/index.js"></script>
+    <!--样式引用开始-->
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+
+<body>
+<!-- 组件 -->
+<!--页眉组件-->
+<template id="yemei">
+    <div class="yemei">
+        <div v-for="i in data">
+            <div @click="yemei_edit" class="yemei_edit" v-show="yemei_hide">
+                <h1 :style="{fontFamily:i.fontFamily,fontSize: i.fontSize + 'px',textAlign:i.textalign,background:i.backgroundcolor}" :class="{'fontweight':i.fontWeight}">
+                    {{i.title}}
+                </h1>
+                <h2 id="danimgshow">
+                   <img id="preview1" border="0" title="" src="./images/1.jpg" :style="{float:i.imgalign}">
+                </h2>
+                <h3 id="duoimgshow">
+                    <mt-swipe :auto="4000">
+                        <mt-swipe-item v-for="e in i.duoimg" :key="e"><img :src="e" alt=""/></mt-swipe-item>
+                    </mt-swipe>
+                </h3>
+            </div>
+            <div class="R">
+                <table class="yemei_table">
+                    <thead>
+                    <tr>
+                        <td width="24%">页眉展示</td>
+                        <td width="76%">
+                            <select name="" v-model="i.yemei_show" @change="change(i.yemei_show)">
+                                <option>显示</option>
+                                <option>隐藏</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>类型</td>
+                        <td class="leixing">
+                            <p class="on">文字</p>
+                            <p>单张图</p>
+                            <p>轮播图</p>
+                        </td>
+                    </tr>
+                    </thead>
+                    <!--文字-->
+                    <tbody>
+                        <tr>
+                            <td>文字内容</td>
+                            <td>
+                                <input type="text" v-model="i.title" placeholder="请输入标题内容">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>样式</td>
+                            <td>
+                                <select name="" style=" width: 60px;" v-model="i.fontFamily">
+                                    <option>黑体</option>
+                                    <option>楷体</option>
+                                    <option>宋体</option>
+                                </select>
+                                <select name="" style=" width: 50px;" v-model="i.fontSize">
+                                    <option>12</option>
+                                    <option>14</option>
+                                    <option>16</option>
+                                    <option>18</option>
+                                    <option>20</option>
+                                    <option>22</option>
+                                </select>
+                                <p @click="fontwt" :class="{'ftwton':i.fontWeight}">加粗</p>
+                                <p><input type="hidden" id="position-bottom-left1" class="form-control demo" data-position="bottom left" value="#fff"></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>对齐方式</td>
+                            <td>
+                                <input type="radio" id="one" value="left" name="textalign" v-model="i.textalign" style=" display: none">
+                                <label class="duiqi ative" for="one">左</label>
+                                <input type="radio" id="two" value="center" name="textalign" v-model="i.textalign" style=" display: none">
+                                <label class="duiqi" for="two">中</label>
+                                <input type="radio" id="three" value="right" name="textalign" v-model="i.textalign" style=" display: none">
+                                <label class="duiqi" for="three">右</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>底色</td>
+                            <td>
+                                <input type="hidden" id="position-bottom-left" class="form-control demo" data-position="bottom left" value="#000">
+                            </td>
+                        </tr>
+                    </tbody>
+                    <!--单图-->
+                    <tbody>
+                        <tr>
+                            <td>上传</td>
+                            <td style=" position: relative;">
+                                <div class="danimgsmall">
+                                    <div>
+                                    <img id="preview" border="0" title="" src="./images/1.jpg">
+                                    <input type="file" name="image_file" id="image_file" class="upload_pic" onchange="fileSelected('preview','preview1','image_file');">
+                                    <div class="title">1.jpg</div>
+                                    <!--<div class="removeimg">删除</div>-->
+                                    </div>
+                                    <span>上传图片</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>对齐方式</td>
+                            <td>
+                                <input type="radio" id="four" value="left" name="imgalign" v-model="i.imgalign" style=" display: none">
+                                <label class="duiqi ative" for="four">左</label>
+                                <input type="radio" id="five" value="none" name="imgalign" v-model="i.imgalign" style=" display: none">
+                                <label class="duiqi" for="five">中</label>
+                                <input type="radio" id="six" value="right" name="imgalign" v-model="i.imgalign" style=" display: none">
+                                <label class="duiqi" for="six">右</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>底色</td>
+                            <td>
+                                <input type="hidden" id="position-bottom-left2" class="form-control demo" data-position="bottom left" value="#fff">
+                            </td>
+                        </tr>
+                    </tbody>
+                    <!--轮播图-->
+                    <tbody>
+                    <tr>
+                        <td>上传</td>
+                        <td style=" position: relative;">
+                            <div id="inputBox"><input type="file" title="请选择图片" id="file" multiple accept="image/png,image/jpg,image/gif,image/JPEG"/>点击选择图片最多上传5张</div>
+                            <div id="imgBox"></div>
+                            <div class="shengchenglunbo">生成轮播</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>底色</td>
+                        <td>
+                            <input type="hidden" id="position-bottom-left3" class="form-control demo" data-position="bottom left" value="#fff">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</template>
+<!--编辑器组件-->
+<template id="ckeditor">
+    <li class="ckeditorer">
+        <div v-for="i in data">
+            <h3><input type="text" v-model="i.bigtitle"/></h3>
+            <textarea id="TextArea1" cols="20" rows="2" class="ckeditor"></textarea>
+        </div>
+    </li>
+</template>
+<!-- 单行文本模板 -->
+<template id="danhangwenben">
+    <div class="danhangwenben">
+        <div v-for="i in data">
+            <div @click="danhangwenben_edit">
+                <li class="postion">
+                    <h2>{{i.title}}<span v-show="i.bitian" :gg="i.bitian" style="color: #f03d0d">*</span></h2>
+                    <h4>{{i.tishi}}</span></h4>
+                    <input class="danhangwenben_k_n" type="text" name="" v-model="i.input" :val="i.input">
+                    <h6 style="color: #f00; font-weight: normal; display: none">x123</h6>
+                    <input class="danhangwenben_hidden" type="hidden" :bitian="i.bitian" :repeat="i.repeat" :cardid="i.cardid" :fanwei="i.fanwei" :min="i.min" :minval="i.minval" :max="i.max" :maxval="i.maxval" :err="i.err" :errval="i.errval" :widt="i.widt" :widtval="i.widtval" :widtone="i.widtone" :texthide="i.texthide" :auto="i.auto">
+                    <a href="#" class="copy" @click="copy">复制</a>
+                    <a href="#" class="del" @click="del">删除</a>
+                </li>
+            </div>
+            <div class="R">
+                <li>
+                    <h3>标题</h3>
+                    <input class="danhangwenben_title" type="text" name="" v-model="i.title" :title="i.title">
+                    <h3>默认值</h3>
+                    <input class="danhangwenben_input" type="text" name="" v-model="i.input" :input="i.input">
+                    <h3>提示</h3>
+                    <input class="danhangwenben_tishi" type="text" name="" v-model="i.tishi" :tishi="i.tishi">
+                    <label @click="wxjq_show"><input type="checkbox" name="" v-model="i.weixin" class="danhangwenben_weixin" :weixin="i.weixin"><span>微信扫码录入</span></label>
+                    <label v-if="i.wxjq_show"><input type="checkbox" name="" v-model="i.weixinjiequ" class="danhangwenben_jiequ" :weixinjiequ="i.weixinjiequ"><span>截取第</span><input type="text" v-model="i.first" class="danhangwenben_first duan" :first="i.first">到第</span><input type="text" v-model="i.last" class="danhangwenben_last duan" :last="i.last">个字符</label>
+                    <h3>校验</h3>
+                    <label><input type="checkbox" name="" v-model="i.bitian"><span>必须填</span></label>
+                    <label><input type="checkbox" name="" v-model="i.repeat"><span>不能和已有数据重复</span></label>
+                    <label><input type="checkbox" name="" v-model="i.cardid"><span>身份证号验证</span></label>
+                    <label>
+                        <input type="checkbox" name="" v-model="i.fanwei" class="fanwei1" :fanwei="i.fanwei"><span>限定填写范围<a href="#" @click="fanwei_show" style=" color: #0066ff; margin-left: 6px;" v-html="i.fanwei_btn"></a></span>
+                        <div class="blackbg" v-show="i.fanwei_show"></div>
+                        <div class="fanwei" v-show="i.fanwei_show">
+                            <h2>每条内容请单列一行</h2>
+                            <textarea name="" cols="30" rows="10" class="fanwei_neirong" v-model="i.fanwei_neirong" :fanwei_neirong="i.fanwei_neirong"></textarea>
+                            <h3>
+                                <a href="#" class="save" @click="save">保存</a>
+                                <a href="#" class="cancel" @click="cancel">取消</a>
+                            </h3>
+                        </div>
+                    </label>
+                    <label><input type="checkbox" name="" v-model="i.min"><span>最少填<input type="text" v-model="i.minval" class="duan">个字</span></label>
+                    <label><input type="checkbox" name="" v-model="i.max"><span>最多填<input type="text" v-model="i.maxval" class="duan">个字</span></label>
+                    <label><input type="checkbox" name="" v-model="i.err"><span>自定义出错文案<input type="text" v-model="i.errval"></span></label>
+                    <h3>其他设置</h3>
+                    <label><input type="checkbox" name="" v-model="i.texthide"><span>字段隐藏</span></label>
+                    <label><input type="checkbox" name="" v-model="i.auto"><span>自动填写上次填写内容</span></label>
+                </li>
+            </div>
+        </div>
+    </div>
+
+</template>
+<!-- 多行文本模板 -->
+<template id="duohangwenben">
+    <div class="duohangwenben">
+        <div v-for="i in data">
+            <div @click="duohangwenben_edit">
+                <li class="postion">
+                    <h2>{{i.title}}<span v-if="i.bitian" :gg="i.bitian" style="color: #f03d0d">*</span></h2>
+                    <h4>{{i.tishi}}</h4>
+                    <textarea class="duohangwenben_k_n" v-model="i.input" :val="i.input"></textarea>
+                    <h6 style="color: #f00; font-weight: normal; display: none">x123</h6>
+                    <input class="duohangwenben_hidden" type="hidden" :bitian="i.bitian" :repeat="i.repeat" :cardid="i.cardid" :fanwei="i.fanwei" :min="i.min" :minval="i.minval" :max="i.max" :maxval="i.maxval" :err="i.err" :errval="i.errval" :widt="i.widt" :widtval="i.widtval" :widtone="i.widtone" :texthide="i.texthide" :auto="i.auto">
+                    <a href="#" class="copy" @click="copy">复制</a>
+                    <a href="#" class="del" @click="del">删除</a>
+                </li>
+            </div>
+            <div class="R">
+                <li>
+                    <h3>标题</h3>
+                    <input class="duohangwenben_title" type="text" name="" v-model="i.title" :title="i.title">
+                    <h3>默认值</h3>
+                    <input class="duohangwenben_input" type="text" name="" v-model="i.input" :input="i.input">
+                    <h3>提示</h3>
+                    <input class="duohangwenben_tishi" type="text" name="" v-model="i.tishi" :tishi="i.tishi">
+                    <h3>校验</h3>
+                    <label><input type="checkbox" name="" v-model="i.bitian"><span>必须填</span></label>
+                    <label><input type="checkbox" name="" v-model="i.min"><span>最少填<input type="text" v-model="i.minval">个字</span></label>
+                    <label><input type="checkbox" name="" v-model="i.max"><span>最多填<input type="text" v-model="i.maxval">个字</span></label>
+                    <label><input type="checkbox" name="" v-model="i.err"><span>自定义出错文案<input type="text" v-model="i.errval"></span></label>
+                    <h3>其他设置</h3>
+                    <label><input type="checkbox" name="" v-model="i.texthide"><span>字段隐藏</span></label>
+                    <label><input type="checkbox" name="" v-model="i.auto"><span>自动填写上次填写内容</span></label>
+                </li>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- 单项选择模板 -->
+<template id="danxiangxuanze">
+    <div class="danxiangxuanze">
+        <div v-for="i in data">
+            <div @click="danxiangxuanze_edit">
+                <li class="postion">
+                    <h2 class="danxiangxuanze_title">{{i.title}}<span v-if="i.bitian" :gg="i.bitian" style="color: #f03d0d">*</span></h2>
+                    <div type="text" name="" class="danxiangxuanze_tips" style="color: #999;">{{i.tips}}</div>
+
+                    <div class="mode1" v-if="i.mode1"><label v-for='(ms,a) in i.msg' :key="a" class="mode2"><input :name="i.ui" type="radio" disabled :value="a" v-model="i.checked"  class="mode5"><span>{{i.msg[a]}}</span></label></div>
+                    <div class="mode1" v-else="i.mode1"><label v-for='(ms,a) in i.msg' class="mode3"><input :name="i.ui" type="radio" disabled :value="a" v-model="i.checked"  class="mode5" /><span>{{i.msg[a]}}</span></label></div>
+
+                    <h6 style="color: #f00; font-weight: normal; display: none">x123</h6>
+                    <input class="danxiangxuanze_hidden" type="hidden" :msg="i.msg" :title="i.title" :bitian="i.bitian" :err="i.err" :texthide="i.texthide" :auto="i.auto" >
+                    <a href="#" class="copy" @click="copy">复制</a>
+                    <a href="#" class="del" @click="del">删除</a>
+                </li>
+            </div>
+            <div class="R">
+                <li>
+                    <label>
+                        <h3>标题</h3>
+                        <input class="danhangwenben_title" type="text" name="" v-model="i.title" :title="i.title">
+                    </label>
+                    <label><input type="checkbox" name="" v-model="i.bitian" class="bitian" :bitian="i.bitian"><span>必须填</span></label>
+                    <label class="zdy"><input class="zdyxuan" type="checkbox" name="" v-model="i.err" :err="i.err"><span>自定义出错文案<input class="zdytian" type="text" v-model="i.errval"></span></label>
+
+                    <label v-if="i.mode1" class="fx1">
+                        <input type="button" value="纵向" @click="portrait" class="portrait" :mode1="i.mode1" />
+                        <input type="button" value="横向"  @click="transverse" :mode2="i.mode2" class="transverse" />
+                    </label>
+                    <label v-else="i.mode1" class="fx2">
+                        <input type="button" value="纵向" @click="portrait" class="portrait" :mode1="i.mode1" />
+                        <input type="button" value="横向"  @click="transverse" :mode2="i.mode2" class="transverse" />
+                    </label>
+
+                    <label><input type="checkbox" name="" v-model="i.texthide"><span>字段隐藏</span></label>
+                    <label><input type="checkbox" name="" v-model="i.auto"><span>自动填写上次填写内容</span></label>
+                    <div>提示</div><input type="text" v-model="i.tips" :tips="i.tips" class="danxiangxuanze_tips1" />
+                    <h3>选项</h3>
+                    <div v-for='(ms,a) in i.msg' :key="a" style="overflow: hidden;">
+                        <label class="mode4">
+                            <div>
+                                <input type="radio" :value="a" v-model="i.checked" :name="i.ui1" class="xuan"/>
+                                <span>
+                                    <input type="text" v-model="i.msg[a]" class="shurukuang" >
+                                </span>
+                            </div>
+                        </label>
+                        <div class="add" @click="add(a)">+</div>
+                        <div class="dele" :class="{dele3:i.dis}" @click="dele(a)">-</div>
+                    </div>
+                </li>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- 多项选择模板 -->
+<template id="duoxiangxuanze">
+    <div class="duoxiangxuanze">
+        <div v-for="(i,inc) in data">
+            <div @click="duoxiangxuanze_edit">
+                <li class="postion">
+                    <h2 class="duoxiangxuanze_title">{{i.title}}<span v-if="i.bitian" :gg="i.bitian" style="color: #f03d0d">*</span></h2>
+                    <div type="text" name="" class="duoxiangxuanze_tips" style="color: #999;">{{i.tips}}</div>
+
+                    <div class="mode1" v-if="i.mode1"><label v-for='(ms,a) in i.msg' class="mode2"><input  type="checkbox" disabled class="mode5" v-model="i.checked[a]"><span>{{i.msg[a]}}</span></label></div>
+                    <div class="mode1" v-else="i.mode1"><label v-for='(ms,a) in i.msg' class="mode3"><input type="checkbox" disabled class="mode6" v-model="i.checked[a]"><span>{{i.msg[a]}}</span></label></div>
+
+                    <h6 style="color: #f00; font-weight: normal; display: none"><input type="text" v-model="i.errval" style="color: #f00; font-weight: normal;border: 0"></h6>
+                    <input class="duoxiangxuanze_hidden" type="hidden" :msg="i.msg" :title="i.title" :bitian="i.bitian" :err="i.err" :texthide="i.texthide" :auto="i.auto" >
+                    <a href="#" class="copy" @click="copy">复制</a>
+                    <a href="#" class="del" @click="del">删除</a>
+                </li>
+            </div>
+            <div class="R">
+                <li>
+                    <label>
+                        <h3>标题</h3>
+                        <input class="duohangwenben_title" type="text" name="" v-model="i.title" :title="i.title">
+                    </label>
+                    <label><input type="checkbox" name="" v-model="i.bitian" class="bitian" :bitian="i.bitian"><span>必须填</span></label>
+                    <label class="zdy"><input class="zdyxuan" type="checkbox" name="" v-model="i.err" :err="i.err"><span>自定义出错文案<input class="zdytian" type="text" v-model="i.errval"></span></label>
+                    <label v-if="i.mode1" class="fx1"><input type="button" value="纵向" @click="portrait2" class="portrait" :mode1="i.mode1" /><input type="button" value="横向"  @click="transverse2" :mode2="i.mode2" class="transverse" /></label>
+                    <label v-else="i.mode1" class="fx2"><input type="button" value="纵向" @click="portrait2" class="portrait" :mode1="i.mode1" /><input type="button" value="横向"  @click="transverse2" :mode2="i.mode2" class="transverse" /></label>
+                    <label><input type="checkbox" name="" v-model="i.texthide"><span>字段隐藏</span></label>
+                    <label><input type="checkbox" name="" v-model="i.auto"><span>自动填写上次填写内容</span></label>
+                    <div>提示</div><input type="text" v-model="i.tips" :tips="i.tips" class="duoxiangxuanze_tips1" />
+                    <h3>选项</h3>
+                    <div v-for='(ms,a) in i.msg' style="overflow: hidden;">
+                        <label class="mode4">
+                            <div>
+                                <input type="checkbox"  class="xuan" v-model="i.checked[a]" :xuanzhong="i.checked[a]" @click="xz" />
+                                <span>
+                                    <input type="text" v-model="i.msg[a]" class="shurukuang" >
+                                </span>
+                            </div>
+                        </label>
+                        <div class="add" @click="add2(a)">+</div>
+                        <div class="dele" :class="{dele3:i.dis}" @click="dele2(a)">-</div>
+                    </div>
+                </li>
+            </div>
+        </div>
+    </div>
+</template>
+<!--主体-->
+<div id="app">
+    <!--左侧按钮-->
+    <div class="L">
+        <li @click="add('danhangwenben')">单行文本</li>
+        <li @click="add('duohangwenben')">多行文本</li>
+        <li @click="add('danxiangxuanze')">单项选择</li>
+        <li @click="add('duoxiangxuanze')">多项选择</li>
+    </div>
+    <!--编辑内容-->
+    <div class="M">
+        <yemei></yemei>
+        <ckeditor></ckeditor>
+        <li :is="item.component" v-for="(item,index) in items" :date-id="index" :delid="index" :id="item.id" :bb="index" :key="item.id" :userid="userid"></li>
+    </div>
+
+
+
+    <a class="submit" id="btn">提交</a>
+</div>
+
+</body>
+<!-- 数据代码 -->
+<script src="js/vued.js"></script>
+<script src="js/check.js"></script>
+<!--单图片上传-->
+<script>
+    // common variables
+
+    var iBytesUploaded = 0;
+    var iBytesTotal = 0;
+    var iPreviousBytesLoaded = 0;
+    var iMaxFilesize = 1048576; // 1MB
+    var oTimer = 0;
+    var sResultFileSize = '';
+
+    function fileSelected(a,a1, b) {
+        var oFile = document.getElementById(b).files[0];
+        // filter for image files
+        var rFilter = /^(image\/bmp|image\/gif|image\/jpeg|image\/png|image\/tiff)$/i;
+        if (!rFilter.test(oFile.type)) {
+            document.getElementById('error').style.display = 'block';
+            return;
+        }
+        // get preview element
+        var oImage = document.getElementById(a);
+        var oImage1 = document.getElementById(a1);
+        // prepare HTML5 FileReader
+        var oReader = new FileReader();
+        oReader.onload = function(e) {
+            oImage.src = e.target.result;
+            oImage1.src = e.target.result;
+        };
+
+        $(".danimgsmall .title").html(oFile.name)
+        // read selected file as DataURL
+        oReader.readAsDataURL(oFile);
+
+    }
+    /*$(function(){
+        $(".removeimg").click(function(){
+            $("#preview1").remove()
+            $("#preview").remove()
+        })
+    })*/
+</script>
+<!--多图片上传-->
+<script src="js/uploadImg.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    imgUpload({
+        inputId:'file', //input框id
+        imgBox:'imgBox', //图片容器id
+        buttonId:'btn', //提交按钮id
+        upUrl:'',  //提交地址
+        data:'file1' //参数名
+    })
+    $(function(){
+        $(".shengchenglunbo").click(function(){
+            console.log(imgName)
+        })
+    })
+</script>
+<!--编辑器-->
+<script type="text/javascript">
+    CKEDITOR.replace('TextArea1');
+    //如果是在ASP.NET环境下用的服务器端控 件<TextBox>
+    //CKEDITOR.replace('tbContent');
+    //如 果<TextBox>控件在母版页中，要这样写
+    //CKEDITOR.replace('<%=tbContent.ClientID.Replace("_","$") %>');
+</script>
+<!--选择颜色-->
+<script>
+    $(document).ready( function() {
+
+        $('.demo').each( function() {
+            //
+            // Dear reader, it's actually very easy to initialize MiniColors. For example:
+            //
+            //  $(selector).minicolors();
+            //
+            // The way I've done it below is just for the demo, so don't get confused
+            // by it. Also, data- attributes aren't supported at this time...they're
+            // only used for this demo.
+            //
+            $(this).minicolors({
+                control: $(this).attr('data-control') || 'hue',
+                defaultValue: $(this).attr('data-defaultValue') || '',
+                inline: $(this).attr('data-inline') === 'true',
+                letterCase: $(this).attr('data-letterCase') || 'lowercase',
+                opacity: $(this).attr('data-opacity'),
+                position: $(this).attr('data-position') || 'bottom left',
+                change: function(hex, opacity) {
+                    if( !hex ) return;
+                    if( opacity ) hex += ', ' + opacity;
+                    try {
+
+
+                    } catch(e) {}
+                },
+                theme: 'bootstrap'
+            });
+
+        });
+
+    });
+</script>
+</html>
